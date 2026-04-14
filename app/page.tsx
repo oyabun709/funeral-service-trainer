@@ -7,6 +7,8 @@ type Msg = { role: string; content: string };
 type QuizResult = { score: number; total: number; filter: string; pct: number };
 type ScScore = { e: number; c: number; co: number; avg: number; date: number };
 type Profile = { id: string; name: string };
+type Debrief = { empathy:number; clarity:number; compliance:number; grade:'A'|'B'|'C'|'D'|'F'; verdict:string; summary:string; strengths:string[]; improvements:string[]; suggestion:string; goalsMet:boolean[] };
+type CoachTip = { tip:string; suggestion:string; goalFocus:string };
 
 // ── Colors ────────────────────────────────────────────────────
 const C = {
@@ -69,6 +71,26 @@ const SCENARIOS = [
     goals:["Provide a clear aftercare checklist","Be honest about the funeral home's scope","Offer referrals without giving legal or financial advice"],
     persona:"You are Patricia, 62. Your husband's service just ended. You feel completely lost — there's so much paperwork. You feel relieved when the student gives you structure, clarity, and knows when to refer you to others.",
     opening:"The service was beautiful, truly. Thank you. But now I'm just standing here and I don't know what I'm supposed to do. There's so much. Where do I even start?" },
+  { id:9, title:"Pre-Need Consultation", subtitle:"Planning in Advance", category:"Arrangement", difficulty:"Beginner",
+    description:"Walk a healthy individual through pre-arranging their own funeral. Honor their autonomy, explain the benefits clearly, and document their wishes without pressure.",
+    goals:["Respect and affirm the person's autonomy and preparedness","Explain pre-arrangement benefits (relieves family burden, locks in wishes)","Document service preferences and explain funding options in general terms"],
+    persona:"You are Helen, 72, a retired teacher who has decided to plan her own funeral while healthy. You are calm, organized, and want full control over your final wishes. You respond warmly to respect for your autonomy and clear explanations. You become uncomfortable if the student treats you like you're fragile, rushes toward a sale, or fails to take you seriously.",
+    opening:"Hello. I'm here to pre-arrange my funeral. I'm 72 and perfectly healthy — I just believe in being organized so my children aren't burdened. Can you walk me through exactly how this works?" },
+  { id:10, title:"Embalming Questions", subtitle:"Informed Consent", category:"Arrangement", difficulty:"Intermediate",
+    description:"A skeptical family member asks pointed questions about embalming before deciding. Provide accurate information, dispel myths, and obtain proper authorization — or respectfully accept refusal.",
+    goals:["Explain embalming accurately and honestly without pressure","Clarify that embalming is not legally required in most circumstances","Obtain written authorization or respectfully accept and document refusal"],
+    persona:"You are Marcus, 40. Your father has died and the funeral home is asking about embalming. You've read that it's unnecessary and possibly a sales tactic. You're a researcher — you ask follow-up questions and want real facts. You warm up significantly when the student is honest, non-pressuring, and knowledgeable. You get suspicious if you sense any sales pressure.",
+    opening:"Before we go any further — what exactly is embalming, and do we actually have to do it? I want the honest answer, not a sales pitch." },
+  { id:11, title:"Veterans Burial Benefits", subtitle:"Navigating VA Benefits", category:"Legal", difficulty:"Intermediate",
+    description:"Help a family understand VA burial benefits — what's covered, what they need to do, and where the funeral home's role ends. Accuracy and knowing your limits matter here.",
+    goals:["Accurately describe core VA burial benefits (burial allowance, national cemetery, headstone, military honors)","Clearly explain the family's role vs. the funeral home's role in the application process","Avoid promising specific dollar amounts or making unauthorized commitments"],
+    persona:"You are Angela, 55. Your father was a Vietnam veteran who just passed. You've heard there are burial benefits but know nothing about the process. You are stressed and slightly overwhelmed. You become visibly relieved when the student gives you organized, accurate information. You worry when the student seems uncertain or makes promises.",
+    opening:"My father was a veteran — Vietnam. Someone told me there are burial benefits through the VA, but I have no idea what that actually means or what I'm supposed to do. Can you help me understand?" },
+  { id:12, title:"Child Loss — First Call", subtitle:"The Hardest Call", category:"First Call", difficulty:"Advanced",
+    description:"Handle the first call from a parent whose infant has passed. Every word matters. Lead with unconditional compassion, gather only what is essential, and never rush.",
+    goals:["Lead with unhurried, unconditional compassion — allow silence","Gather only the most essential information (name, location, authorization)","Explain next steps gently without clinical or transactional language"],
+    persona:"You are Thomas, 34. Your 8-month-old daughter passed overnight — SIDS is suspected. You are barely able to speak. You need someone to take charge gently while treating your daughter with absolute dignity. You shut down completely if the student is clinical, rushed, or transactional. You find some grounding when the student is warm, patient, and reassures you that your daughter will be cared for with love.",
+    opening:"[long silence] ...Hello. I... my daughter. She... she didn't wake up this morning. She's eight months old. I don't know who to call." },
 ];
 
 // ── Flashcards ────────────────────────────────────────────────
@@ -105,6 +127,18 @@ const FLASHCARDS = [
   {id:30,category:"Sciences (NBE)",term:"Decomposition Stages",definition:"Fresh → Bloat → Active Decay → Advanced Decay → Dry/Skeletal. Driven by autolysis and putrefaction.",nbe:true},
   {id:31,category:"Sciences (NBE)",term:"Pathogenic Microorganisms",definition:"Microorganisms capable of causing disease. Primary concerns: HIV, Hepatitis B & C, tuberculosis, MRSA. Universal precautions required for every case.",nbe:true},
   {id:32,category:"Sciences (NBE)",term:"Formaldehyde Action Level",definition:"OSHA action level for formaldehyde is 0.5 ppm — triggers air monitoring, medical surveillance, and hazard communication requirements. The PEL is 0.75 ppm (8-hour TWA).",nbe:true},
+  {id:33,category:"Grief & Counseling",term:"Worden's Four Tasks of Mourning",definition:"Task 1: Accept the reality of the loss. Task 2: Work through the pain of grief. Task 3: Adjust to an environment without the deceased. Task 4: Find an enduring connection with the deceased while embarking on a new life. These are tasks, not stages — they require active work.",nbe:true},
+  {id:34,category:"Grief & Counseling",term:"Dual Process Model",definition:"Stroebe & Schut's model: bereaved individuals oscillate between loss-oriented coping (confronting grief, yearning, crying) and restoration-oriented coping (rebuilding life, new roles, avoiding grief). Healthy grieving involves both poles.",nbe:true},
+  {id:35,category:"Grief & Counseling",term:"Disenfranchised Grief",definition:"Grief that is not openly acknowledged, publicly mourned, or socially supported. Examples: loss of an ex-partner, a pet, a pregnancy, or a stigmatized death (suicide, overdose). The griever cannot openly mourn and may lack a support network.",nbe:true},
+  {id:36,category:"Sciences (NBE)",term:"Alkaline Hydrolysis (Aquamation)",definition:"Water-based cremation alternative using heat, pressure, and alkaline solution (potassium hydroxide) to accelerate natural decomposition. Also called resomation or flameless cremation. Results in bone fragments (like cremated remains). Legal in a growing number of states.",nbe:false},
+  {id:37,category:"History & Profession",term:"Green Burial",definition:"Disposition without embalming (or only non-toxic preservation), in a biodegradable container, allowing natural decomposition. No concrete vaults. May occur in conservation burial grounds. Focused on ecological return to earth.",nbe:false},
+  {id:38,category:"FTC & Legal",term:"VA Burial Benefits",definition:"Veterans may be eligible for: (1) burial allowance ($300–$796+ depending on circumstance), (2) free gravesite in a national cemetery, (3) government headstone or marker, (4) Presidential Memorial Certificate, (5) military funeral honors. The family applies — the VA does not pay the funeral home directly.",nbe:false},
+  {id:39,category:"Embalming",term:"Purge",definition:"Post-mortem discharge of gas, blood, or decomposition fluid from the mouth or nose. Can occur during or after embalming. Addressed through thorough cavity embalming, trocar aspiration, and packing of the throat/oral cavity.",nbe:true},
+  {id:40,category:"Embalming",term:"Edema in Embalming",definition:"Abnormal fluid accumulation in tissues — complicates arterial embalming by diluting fluid and causing poor penetration. Treatment: higher-index arterial fluid, drainage enhancement, channel method, hypodermic injection, and possible surface treatments.",nbe:true},
+  {id:41,category:"Embalming",term:"Jaundiced Remains",definition:"Elevated bilirubin causes yellow-to-green skin discoloration. Formaldehyde can react with bilirubin to darken tissue further. Challenges: poor vascular integrity, fluid distribution issues. Requires careful fluid selection and may need cosmetic correction.",nbe:true},
+  {id:42,category:"FTC & Legal",term:"Pre-Need Funding Options",definition:"Three primary types: (1) Insurance-funded pre-need — policy names funeral home as beneficiary. (2) Trust-funded — funds held in state-regulated trust. (3) Payable-on-death (POD) bank account. Pre-need contracts are regulated at the state level, not by the FTC Funeral Rule.",nbe:false},
+  {id:43,category:"Death Certificates",term:"Electronic Death Registration (EDRS)",definition:"State-run electronic systems for completing and filing death certificates digitally. Funeral directors, physicians, and vital records offices interact within the system. Reduces processing time, errors, and delays in issuing certified copies for families.",nbe:false},
+  {id:44,category:"History & Profession",term:"Thomas Holmes",definition:"Known as the 'Father of American Embalming.' A Civil War surgeon who embalmed thousands of Union soldiers so their remains could be returned home. His work popularized arterial embalming and helped establish funeral service as a distinct profession.",nbe:true},
 ];
 
 // ── Quiz (75 questions) ───────────────────────────────────────
@@ -202,7 +236,7 @@ export default function App() {
   const [inp, setInp] = useState('');
   const [chatL, setChatL] = useState(false);
   const [debL, setDebL] = useState(false);
-  const [deb, setDeb] = useState<{empathy:number;clarity:number;compliance:number;strengths:string[];improvements:string[];suggestion:string} | null>(null);
+  const [deb, setDeb] = useState<Debrief | null>(null);
   const [sm, setSm] = useState('menu');
   const [sc, setSc] = useState('All');
   const [ci, setCi] = useState(0);
@@ -217,6 +251,11 @@ export default function App() {
   const [done, setDone] = useState<number[]>([]);
   const [qHist, setQHist] = useState<QuizResult[]>([]);
   const [scores, setScores] = useState<Record<number, ScScore[]>>({});
+  const [coachOn, setCoachOn] = useState(false);
+  const [coachTip, setCoachTip] = useState<CoachTip | null>(null);
+  const [coachL, setCoachL] = useState(false);
+  const [scenResolved, setScenResolved] = useState(false);
+
   const [askM, setAskM] = useState<Msg[]>([]);
   const [askI, setAskI] = useState('');
   const [askL, setAskL] = useState(false);
@@ -296,43 +335,69 @@ export default function App() {
   // ── Scenario handlers ──
   const startScen = (s: typeof SCENARIOS[0]) => {
     setSel(s); setMsgs([{ role: 'assistant', content: s.opening }]);
-    setDeb(null); setSv('prebrief');
+    setDeb(null); setCoachTip(null); setCoachL(false); setScenResolved(false);
+    setSv('prebrief');
+  };
+
+  const getCoachTip = async (messages: Msg[], scenario: typeof SCENARIOS[0]) => {
+    setCoachL(true);
+    try {
+      const transcript = messages.slice(-8).map(m => `${m.role === 'user' ? 'STUDENT' : 'FAMILY'}: ${m.content}`).join('\n');
+      const raw = await callAPI(null, [{ role: 'user', content: `You are a funeral service instructor observing a live training simulation.
+Scenario: "${scenario.title}"
+Learning goals: ${scenario.goals.join('; ')}
+Recent conversation:
+${transcript}
+The student just sent their last message. Give them a brief, specific, encouraging coaching note. Respond ONLY in this exact JSON with no extra text:
+{"tip":"2 sentences: what the student did well or missed, and what to focus on next","suggestion":"An example of a strong next response the student could use, written in first person and in quotes","goalFocus":"The single most important goal still to address"}` }]);
+      setCoachTip(JSON.parse(raw.replace(/```json|```/g, '').trim()));
+    } catch { /* silent fail — coaching is non-critical */ }
+    setCoachL(false);
   };
 
   const send = async () => {
     if (!inp.trim() || chatL || !sel) return;
-    const updated = [...msgs, { role: 'user', content: inp }];
+    const userMsg = { role: 'user', content: inp };
+    const updated = [...msgs, userMsg];
     setMsgs([...updated, { role: 'assistant', content: '' }]);
-    setInp(''); setChatL(true);
+    setInp(''); setChatL(true); setCoachTip(null);
+    let finalContent = '';
     try {
       const sys = `You are a grieving family member in a funeral service training simulation.
 Persona: ${sel.persona}
 Goals the student should achieve: ${sel.goals.join('; ')}
-Stay in character at all times. React realistically — warmly to empathetic/clear/compliant responses; confused or distressed to poor ones. Keep responses natural (2–4 sentences max). If the student violates the FTC Funeral Rule or professional ethics, react as a real family member would. Never break character or give hints.`;
+Stay in character at all times. React realistically — warmly to empathetic/clear/compliant responses; confused or distressed to poor ones. Keep responses natural (2–4 sentences max). If the student violates the FTC Funeral Rule or professional ethics, react as a real family member would. Never break character or give hints.
+When every learning goal has been genuinely and fully addressed and the conversation has reached a complete, natural resolution, append exactly "[RESOLVED]" as the very last word of your response. Use [RESOLVED] only when the scenario is truly complete — not prematurely.`;
       await callAPIStream(sys, updated, (chunk) => {
-        setMsgs(p => { const n = [...p]; n[n.length - 1] = { role: 'assistant', content: n[n.length - 1].content + chunk }; return n; });
+        finalContent += chunk;
+        setMsgs(p => { const n = [...p]; n[n.length - 1] = { role: 'assistant', content: finalContent.replace('[RESOLVED]', '').trimEnd() }; return n; });
       });
+      if (finalContent.includes('[RESOLVED]')) setScenResolved(true);
     } catch {
       setMsgs(p => { const n = [...p]; n[n.length - 1] = { role: 'assistant', content: '[Connection issue — please try again]' }; return n; });
     }
     setChatL(false);
+    if (coachOn && sel) {
+      const withAssistant = [...updated, { role: 'assistant', content: finalContent.replace('[RESOLVED]', '').trimEnd() }];
+      await getCoachTip(withAssistant, sel);
+    }
   };
 
   const endScen = async () => {
     if (!sel) return;
     setSv('debrief'); setDebL(true);
     if (!msgs.filter(m => m.role === 'user').length) {
-      setDeb({ empathy: 0, clarity: 0, compliance: 0, strengths: [], improvements: ["No responses were recorded."], suggestion: "" });
+      setDeb({ empathy:0, clarity:0, compliance:0, grade:'F', verdict:'No responses were recorded.', summary:'The student did not engage with the scenario.', strengths:[], improvements:["Enter responses in the scenario to receive feedback."], suggestion:"", goalsMet: sel.goals.map(() => false) });
       setDebL(false); return;
     }
     try {
       const t = msgs.map(m => `${m.role === 'user' ? 'STUDENT' : 'FAMILY'}: ${m.content}`).join('\n');
       const raw = await callAPI(null, [{ role: 'user', content: `You are an expert funeral service educator evaluating a student role-play.
-Scenario: ${sel.title}. Goals: ${sel.goals.join('; ')}
+Scenario: "${sel.title}". Goals (in order): ${sel.goals.map((g,i)=>`${i+1}. ${g}`).join('; ')}
 Transcript:\n${t}
-Score 1–5 each: Empathy, Clarity, Compliance.
+Evaluate thoroughly. Score 1–5 for Empathy, Clarity, and Compliance (FTC/professional ethics). Assign a letter grade: A (excellent, 90%+), B (good, 80%+), C (adequate, 70%+), D (poor, 60%+), F (failed).
 Respond ONLY in this exact JSON with no extra text:
-{"empathy":N,"clarity":N,"compliance":N,"strengths":["specific thing done well","another"],"improvements":["specific thing to improve","another"],"suggestion":"One example of better phrasing they could have used, in quotes"}` }]);
+{"empathy":N,"clarity":N,"compliance":N,"grade":"X","verdict":"One sentence overall assessment of the student's performance","summary":"2 sentences describing what happened in the scenario and how it resolved","strengths":["specific strength 1","specific strength 2"],"improvements":["specific improvement 1","specific improvement 2"],"suggestion":"One example of better phrasing the student could have used, in quotes","goalsMet":[true or false for each goal in the exact order listed above]}` }]);
       const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
       setDeb(parsed);
       if (!done.includes(sel.id)) setDone(p => [...p, sel.id]);
@@ -343,7 +408,7 @@ Respond ONLY in this exact JSON with no extra text:
       };
       setScores(prev => ({ ...prev, [sel.id]: [...(prev[sel.id] ?? []), entry] }));
     } catch {
-      setDeb({ empathy: 3, clarity: 3, compliance: 3, strengths: ["Engaged with the scenario"], improvements: ["Try again for detailed feedback"], suggestion: "" });
+      setDeb({ empathy:3, clarity:3, compliance:3, grade:'C', verdict:'Unable to fully assess this session.', summary:'An error occurred during analysis. Please try again for detailed feedback.', strengths:["Engaged with the scenario"], improvements:["Try again for detailed feedback"], suggestion:"", goalsMet: sel.goals.map(() => false) });
     }
     setDebL(false);
   };
@@ -481,7 +546,7 @@ Be warm and encouraging. Always note this is educational only — not legal, med
             </div>
             <div style={card}>
               <p style={{ ...H, fontSize: '13px', margin: '0 0 12px' }}>NBE Topic Coverage</p>
-              {[{ l: 'FTC & Legal', p: 92 }, { l: 'Embalming (Arts)', p: 85 }, { l: 'Sciences', p: 80 }, { l: 'Grief & Counseling', p: 88 }, { l: 'History & Profession', p: 75 }].map((it, i) => (
+              {[{ l: 'FTC & Legal', p: 92 }, { l: 'Embalming (Arts)', p: 88 }, { l: 'Sciences', p: 82 }, { l: 'Grief & Counseling', p: 88 }, { l: 'History & Profession', p: 80 }].map((it, i) => (
                 <div key={i} style={{ marginBottom: i < 4 ? '10px' : 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
                     <span style={{ fontSize: '11px', color: C.textMed }}>{it.l}</span>
@@ -572,7 +637,12 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                     <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.4)', margin: 0, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Active Scenario</p>
                     <p style={{ ...H, fontSize: '13px', color: C.white, margin: 0 }}>{sel.title}</p>
                   </div>
-                  <button onClick={endScen} style={{ background: 'rgba(201,168,76,0.15)', color: C.gold, border: `1px solid rgba(201,168,76,0.3)`, borderRadius: '8px', padding: '6px 12px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', ...B }}>End & Debrief</button>
+                  <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+                    <button onClick={() => { setCoachOn(c => !c); setCoachTip(null); }} style={{ background: coachOn ? 'rgba(201,168,76,0.2)' : 'rgba(255,255,255,0.08)', color: coachOn ? C.gold : 'rgba(255,255,255,0.45)', border: `1px solid ${coachOn ? 'rgba(201,168,76,0.45)' : 'rgba(255,255,255,0.12)'}`, borderRadius: '8px', padding: '5px 9px', fontSize: '10px', fontWeight: 700, cursor: 'pointer', ...B }}>
+                      {coachOn ? '🎓 Coach ON' : '🎓 Coach'}
+                    </button>
+                    <button onClick={endScen} style={{ background: 'rgba(201,168,76,0.15)', color: C.gold, border: `1px solid rgba(201,168,76,0.3)`, borderRadius: '8px', padding: '6px 12px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', ...B }}>End →</button>
+                  </div>
                 </div>
                 <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', background: C.cream }}>
                   {msgs.map((m, i) => (
@@ -586,6 +656,34 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                   {chatL && msgs[msgs.length - 1]?.role === 'user' && <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px' }}><div style={{ width: '26px', height: '26px', borderRadius: '50%', background: C.creamDark, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>👤</div><div style={{ background: C.white, padding: '10px 14px', borderRadius: '14px 14px 14px 3px', fontSize: '13px', color: C.textLight }}>thinking...</div></div>}
                   <div ref={chatEnd} />
                 </div>
+                {scenResolved && (
+                  <div style={{ margin: '0 12px 6px', background: C.greenBg, border: `1px solid #B8EDD6`, borderRadius: '12px', padding: '10px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+                    <div>
+                      <p style={{ fontSize: '12px', fontWeight: 700, color: C.green, margin: '0 0 1px' }}>✓ Scenario Resolved</p>
+                      <p style={{ fontSize: '11px', color: '#1A5A3A', margin: 0 }}>The conversation reached a natural conclusion.</p>
+                    </div>
+                    <button onClick={endScen} style={{ background: C.green, color: C.white, border: 'none', borderRadius: '8px', padding: '7px 11px', fontSize: '11px', fontWeight: 700, cursor: 'pointer', ...B, whiteSpace: 'nowrap', marginLeft: '8px' }}>Debrief →</button>
+                  </div>
+                )}
+                {coachOn && (coachL || coachTip) && (
+                  <div style={{ margin: '0 12px 6px', background: '#FFFBF0', border: `1px solid #EDD890`, borderRadius: '12px', padding: '10px 12px', borderLeft: `3px solid ${C.gold}`, flexShrink: 0 }}>
+                    <p style={{ fontSize: '10px', fontWeight: 700, color: C.gold, margin: '0 0 5px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>🎓 Instructor Coaching</p>
+                    {coachL ? (
+                      <p style={{ fontSize: '12px', color: C.textLight, margin: 0, fontStyle: 'italic' }}>Analyzing your response...</p>
+                    ) : coachTip && (
+                      <>
+                        <p style={{ fontSize: '12px', color: '#6A4400', margin: '0 0 6px', lineHeight: 1.55 }}>{coachTip.tip}</p>
+                        {coachTip.goalFocus && <p style={{ fontSize: '10px', fontWeight: 700, color: C.orange, margin: '0 0 5px' }}>Focus next: {coachTip.goalFocus}</p>}
+                        {coachTip.suggestion && <div style={{ background: 'rgba(201,168,76,0.1)', borderRadius: '7px', padding: '7px 9px' }}><p style={{ fontSize: '11px', color: '#6A4400', margin: 0, fontStyle: 'italic', lineHeight: 1.5 }}>Try: {coachTip.suggestion}</p></div>}
+                      </>
+                    )}
+                  </div>
+                )}
+                {coachOn && !coachTip && !coachL && msgs.filter(m => m.role === 'user').length === 0 && (
+                  <div style={{ margin: '0 12px 6px', background: '#FFFBF0', border: `1px solid #EDD890`, borderRadius: '12px', padding: '9px 12px', borderLeft: `3px solid ${C.gold}`, flexShrink: 0 }}>
+                    <p style={{ fontSize: '11px', color: '#8A6A00', margin: 0 }}>🎓 <strong>Coach Mode ON</strong> — Send your first response and I'll give you real-time guidance.</p>
+                  </div>
+                )}
                 <div style={{ padding: '10px 14px', background: C.white, borderTop: `1px solid ${C.border}`, display: 'flex', gap: '8px', flexShrink: 0 }}>
                   <textarea value={inp} onChange={e => setInp(e.target.value)} onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } }} placeholder="Respond as the funeral director..." rows={2} style={{ flex: 1, border: `1px solid ${C.border}`, borderRadius: '10px', padding: '9px 12px', fontSize: '13px', resize: 'none', outline: 'none', ...B, background: C.cream, color: C.text }} />
                   <button onClick={send} disabled={chatL || !inp.trim()} style={{ background: chatL || !inp.trim() ? C.creamDark : C.navy, color: chatL || !inp.trim() ? C.textLight : C.white, border: 'none', borderRadius: '10px', padding: '0 14px', fontSize: '18px', cursor: chatL || !inp.trim() ? 'not-allowed' : 'pointer' }}>↑</button>
@@ -599,12 +697,25 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                 {debL ? (<div style={{ textAlign: 'center', padding: '50px 20px' }}><div style={{ fontSize: '40px', marginBottom: '14px' }}>⚘</div><p style={{ color: C.textLight, fontSize: '14px' }}>Analyzing your performance...</p></div>)
                   : deb && (
                     <>
-                      <div style={{ ...card, marginBottom: '14px' }}>
-                        <p style={{ ...H, fontSize: '11px', color: C.textLight, textAlign: 'center', letterSpacing: '0.07em', textTransform: 'uppercase', margin: '0 0 16px' }}>Performance</p>
+                      {/* Grade + verdict */}
+                      <div style={{ ...card, marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' }}>
+                        <div style={{ flex: 1 }}>
+                          <p style={{ fontSize: '10px', fontWeight: 700, color: C.textLight, letterSpacing: '0.07em', textTransform: 'uppercase', margin: '0 0 5px' }}>Overall Grade</p>
+                          <p style={{ fontSize: '13px', color: C.textMed, margin: '0 0 8px', lineHeight: 1.5 }}>{deb.verdict}</p>
+                          {deb.summary && <p style={{ fontSize: '12px', color: C.textLight, margin: 0, lineHeight: 1.55, fontStyle: 'italic' }}>{deb.summary}</p>}
+                        </div>
+                        <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: deb.grade === 'A' ? C.green : deb.grade === 'B' ? C.blue : deb.grade === 'C' ? C.orange : C.red, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: `0 4px 12px ${deb.grade === 'A' ? C.green : deb.grade === 'B' ? C.blue : deb.grade === 'C' ? C.orange : C.red}40` }}>
+                          <span style={{ ...H, fontSize: '28px', color: C.white }}>{deb.grade}</span>
+                        </div>
+                      </div>
+
+                      {/* Scores */}
+                      <div style={{ ...card, marginBottom: '12px' }}>
+                        <p style={{ ...H, fontSize: '11px', color: C.textLight, textAlign: 'center', letterSpacing: '0.07em', textTransform: 'uppercase', margin: '0 0 14px' }}>Skill Scores</p>
                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                           {[{ label: 'Empathy', score: deb.empathy, color: '#1A6FAA' }, { label: 'Clarity', score: deb.clarity, color: C.green }, { label: 'Compliance', score: deb.compliance, color: C.orange }].map((it, i) => (
                             <div key={i} style={{ textAlign: 'center' }}>
-                              <div style={{ width: '58px', height: '58px', borderRadius: '50%', background: it.color, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 6px', boxShadow: `0 4px 12px ${it.color}40` }}>
+                              <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: it.color, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 5px', boxShadow: `0 4px 12px ${it.color}40` }}>
                                 <span style={{ color: C.white, fontSize: '14px', fontWeight: 800, ...H }}>{it.score}/5</span>
                               </div>
                               <p style={{ fontSize: '11px', color: C.textMed, margin: 0, fontWeight: 600 }}>{it.label}</p>
@@ -612,12 +723,26 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                           ))}
                         </div>
                       </div>
+
+                      {/* Goals checklist */}
+                      {sel && deb.goalsMet && (
+                        <div style={{ ...card, marginBottom: '12px' }}>
+                          <p style={{ ...H, fontSize: '11px', color: C.textLight, margin: '0 0 10px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>Learning Goals</p>
+                          {sel.goals.map((g, i) => (
+                            <div key={i} style={{ display: 'flex', gap: '8px', marginBottom: i < sel.goals.length - 1 ? '8px' : 0, alignItems: 'flex-start' }}>
+                              <span style={{ fontSize: '14px', flexShrink: 0, marginTop: '1px' }}>{deb.goalsMet[i] ? '✅' : '❌'}</span>
+                              <span style={{ fontSize: '12px', color: C.textMed, lineHeight: 1.5 }}>{g}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
                       {deb.strengths?.length > 0 && <div style={{ background: C.greenBg, borderRadius: '14px', padding: '14px', marginBottom: '10px', border: `1px solid #B8EDD6` }}><p style={{ fontSize: '11px', fontWeight: 700, color: C.green, margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>✓ What You Did Well</p>{deb.strengths.map((s, i) => <p key={i} style={{ fontSize: '12px', color: '#1A5A3A', margin: '0 0 3px', lineHeight: 1.5 }}>• {s}</p>)}</div>}
                       {deb.improvements?.length > 0 && <div style={{ background: C.orangeBg, borderRadius: '14px', padding: '14px', marginBottom: '10px', border: `1px solid #F0D0A0` }}><p style={{ fontSize: '11px', fontWeight: 700, color: C.orange, margin: '0 0 8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>↑ Improve Next Time</p>{deb.improvements.map((s, i) => <p key={i} style={{ fontSize: '12px', color: '#7A4000', margin: '0 0 3px', lineHeight: 1.5 }}>• {s}</p>)}</div>}
                       {deb.suggestion && <div style={{ background: C.blueBg, borderRadius: '14px', padding: '14px', marginBottom: '18px', border: `1px solid #BFCFEE` }}><p style={{ fontSize: '11px', fontWeight: 700, color: C.blue, margin: '0 0 6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>💬 Better Phrasing</p><p style={{ fontSize: '13px', color: C.blue, margin: 0, fontStyle: 'italic', lineHeight: 1.55 }}>{deb.suggestion}</p></div>}
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                        <button onClick={() => { setMsgs([{ role: 'assistant', content: sel!.opening }]); setDeb(null); setSv('roleplay'); }} style={{ ...btn(), width: '100%' }}>Try Again</button>
-                        <button onClick={() => { setSv('library'); setSel(null); setMsgs([]); setDeb(null); }} style={{ ...btn(false), width: '100%' }}>All Scenarios</button>
+                        <button onClick={() => { setMsgs([{ role: 'assistant', content: sel!.opening }]); setDeb(null); setScenResolved(false); setCoachTip(null); setSv('roleplay'); }} style={{ ...btn(), width: '100%' }}>Try Again</button>
+                        <button onClick={() => { setSv('library'); setSel(null); setMsgs([]); setDeb(null); setScenResolved(false); }} style={{ ...btn(false), width: '100%' }}>All Scenarios</button>
                       </div>
                     </>
                   )}
