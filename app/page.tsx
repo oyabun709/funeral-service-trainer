@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 
-const FONTS = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap";
 
 const C = {
   navy:'#1A2840', navyLight:'#243660', gold:'#C9A84C', goldLight:'#E8C870',
@@ -103,6 +102,19 @@ const QUIZ = [
   {id:10,cat:"Sciences (NBE)",nbe:"Sciences",q:"Livor mortis becomes 'fixed' (permanent) approximately how many hours after death?",opts:["1–2 hours","3–4 hours","6–12 hours","24–48 hours"],correct:2,exp:"Livor mortis (blood pooling discoloration) becomes fixed at approximately 6–12 hours post-death. Fixed lividity cannot be repositioned — this has both embalming and forensic significance."},
   {id:11,cat:"FTC & Legal",nbe:"Arts",q:"A funeral provider tells a family that purchasing a casket is required for cremation. This is:",opts:["Acceptable if the funeral home's policy requires it","A violation of the FTC Funeral Rule","Legal if state regulations permit it","Only a violation if the family formally complains"],correct:1,exp:"Under the FTC Funeral Rule, providers cannot require purchase of a casket for cremation. They must offer an alternative container option. This is non-negotiable."},
   {id:12,cat:"History & Profession",nbe:"Arts",q:"Which organization accredits funeral service education programs in the United States?",opts:["NFDA","ABFSE","FTC","CDC"],correct:1,exp:"The American Board of Funeral Service Education (ABFSE) is the recognized accrediting agency for funeral service and mortuary science education programs in the U.S."},
+  {id:13,cat:"Embalming",nbe:"Arts",q:"Which vessels are most commonly used as the primary injection and drainage sites for arterial embalming?",opts:["Femoral artery and vein","Right common carotid artery (injection) and right internal jugular vein (drainage)","Brachial artery and vein","Aorta and vena cava"],correct:1,exp:"The right common carotid artery and right internal jugular vein are the most common primary injection/drainage sites. The femoral vessels are a widely used secondary site, particularly when the neck is not accessible."},
+  {id:14,cat:"Sciences (NBE)",nbe:"Sciences",q:"Which of the following is classified as a bloodborne pathogen of primary concern under OSHA's Bloodborne Pathogens Standard?",opts:["Influenza A","Hepatitis B virus (HBV)","MRSA","Clostridium difficile"],correct:1,exp:"OSHA's Bloodborne Pathogens Standard specifically targets HBV, HCV, and HIV as primary bloodborne pathogens. Universal precautions are required for all cases regardless of known diagnosis."},
+  {id:15,cat:"FTC & Legal",nbe:"Arts",q:"Under the FTC Funeral Rule, the one fee a provider may make non-declinable is:",opts:["Embalming","Transportation of remains","Basic services of funeral director and staff","Obituary preparation"],correct:2,exp:"The basic services fee (overhead/professional services fee) is the only non-declinable charge permitted under the FTC Funeral Rule. All other goods and services must be individually selectable by the consumer."},
+  {id:16,cat:"Death Certificates",nbe:"Arts",q:"Authorization for cremation must be obtained from:",opts:["The attending physician","The legally authorized next of kin in the correct statutory priority order","The medical examiner only","Any adult family member present"],correct:1,exp:"Cremation is irreversible, so authorization must come from the legally authorized next of kin in the order established by state statute (typically spouse → adult children → parents → siblings). Correct authorization is critical."},
+  {id:17,cat:"Grief & Counseling",nbe:"Arts",q:"Which behavior best demonstrates active listening during an arrangement conference?",opts:["Taking detailed notes while the family speaks","Preparing your next question while the family talks","Reflecting back what the family said and allowing silence","Moving quickly through topics to avoid prolonged emotion"],correct:2,exp:"Active listening means reflecting back what you heard, making eye contact, and allowing silence. Preparing your next question while the family speaks is a common error — it means you are not truly present with their grief."},
+  {id:18,cat:"Embalming",nbe:"Arts",q:"A higher embalming index is used when:",opts:["Minimizing formaldehyde exposure is a priority","The family requests a natural appearance","Stronger preservation and firming are needed (e.g., delayed service, decomposition)","Embalming is performed within 12 hours of death"],correct:2,exp:"Higher embalming index = higher formaldehyde concentration = stronger preservation and firming. Used for cases with delayed services, signs of decomposition, edema, or disease conditions requiring enhanced preservation."},
+  {id:19,cat:"Sciences (NBE)",nbe:"Sciences",q:"Autolysis is distinct from putrefaction in that autolysis:",opts:["Begins several hours after death when bacteria activate","Is caused by the body's own cellular enzymes and begins immediately at death","Occurs only after rigor mortis fully resolves","Is driven by insect activity"],correct:1,exp:"Autolysis (self-digestion) is non-bacterial — it begins immediately at death as intracellular enzymes are released. Putrefaction is caused by microbial action and typically begins later. Both contribute to decomposition but through different mechanisms."},
+  {id:20,cat:"FTC & Legal",nbe:"Arts",q:"A consumer calls to ask about prices over the phone. Under the FTC Funeral Rule, you must:",opts:["Invite them in before discussing prices","Provide pricing for any specific goods or services they ask about","Give only the total package price","Provide prices only after they identify themselves"],correct:1,exp:"The FTC Funeral Rule requires funeral providers to answer specific pricing questions over the phone. You are not required to proactively read the full GPL, but you must provide prices for any specific items asked about."},
+  {id:21,cat:"History & Profession",nbe:"Arts",q:"Pre-need funeral arrangements are primarily regulated by:",opts:["The FTC Funeral Rule","State law","The ABFSE","The CDC"],correct:1,exp:"Pre-need arrangements are regulated at the state level — requirements for trusting, insurance funding, and disclosure vary significantly by state. The FTC Funeral Rule governs at-need (current) arrangements only."},
+  {id:22,cat:"Sciences (NBE)",nbe:"Sciences",q:"OSHA's Short Term Exposure Limit (STEL) for formaldehyde is:",opts:["0.5 ppm","0.75 ppm","2.0 ppm","5.0 ppm"],correct:2,exp:"OSHA's STEL for formaldehyde is 2.0 ppm — the maximum allowed for a 15-minute short-term exposure. The 8-hour TWA PEL is 0.75 ppm, and the action level (triggering monitoring and surveillance) is 0.5 ppm."},
+  {id:23,cat:"Grief & Counseling",nbe:"Arts",q:"Complicated grief (prolonged grief disorder) is best characterized by:",opts:["Grief that resolves within two weeks","Normal grief that simply takes longer than average","Prolonged, intense grief that significantly impairs daily functioning","Grief that involves only physical symptoms"],correct:2,exp:"Complicated grief involves grief that remains intense well beyond typical timeframes and significantly impairs daily functioning. Funeral directors should recognize it and be prepared to make referrals to mental health professionals."},
+  {id:24,cat:"Embalming",nbe:"Arts",q:"Fixed livor mortis has forensic significance primarily because:",opts:["It reveals the precise cause of death","Fixed lividity inconsistent with body position suggests the body was moved after death","It determines exact time of death","It indicates the presence of infectious disease"],correct:1,exp:"Lividity becomes fixed at approximately 6–12 hours post-death. If fixed lividity is inconsistent with the body's final position, it suggests the body was repositioned after fixation — a key forensic indicator funeral directors must observe and preserve."},
+  {id:25,cat:"Sciences (NBE)",nbe:"Sciences",q:"The Bloat stage of decomposition is primarily driven by:",opts:["Insect activity consuming soft tissue","Autolysis of skin cells","Gas accumulation from microbial fermentation in the GI tract and body cavities","Dehydration and mummification"],correct:2,exp:"The Bloat stage is characterized by gas (H₂S, methane, ammonia) accumulating from microbial activity, causing visible distension. The Fresh stage precedes it; Active Decay and Advanced Decay follow with tissue loss and eventual skeletonization."},
 ];
 
 const CAT_COLORS: Record<string, {bg:string;text:string;border:string}> = {
@@ -116,13 +128,6 @@ const CAT_COLORS: Record<string, {bg:string;text:string;border:string}> = {
 };
 
 export default function App() {
-  useEffect(() => {
-    if (!document.querySelector('[data-fst]')) {
-      const l = document.createElement('link');
-      l.rel='stylesheet'; l.href=FONTS; l.setAttribute('data-fst','1');
-      document.head.appendChild(l);
-    }
-  }, []);
 
   const [tab, setTab] = useState('home');
   const [sv, setSv] = useState('library');
@@ -150,7 +155,17 @@ export default function App() {
   useEffect(() => { chatEnd.current?.scrollIntoView({behavior:'smooth'}); }, [msgs, chatL]);
   useEffect(() => { askEnd.current?.scrollIntoView({behavior:'smooth'}); }, [askM, askL]);
 
-  // ── single API helper — calls our secure server-side route ──
+  // Persist progress across page reloads
+  useEffect(() => {
+    const savedDone = localStorage.getItem('fst_done');
+    const savedQHist = localStorage.getItem('fst_qhist');
+    if (savedDone) setDone(JSON.parse(savedDone));
+    if (savedQHist) setQHist(JSON.parse(savedQHist));
+  }, []);
+  useEffect(() => { localStorage.setItem('fst_done', JSON.stringify(done)); }, [done]);
+  useEffect(() => { localStorage.setItem('fst_qhist', JSON.stringify(qHist)); }, [qHist]);
+
+  // ── non-streaming API call (used for debrief JSON parsing) ──
   const callAPI = async (system: string|null, messages: {role:string;content:string}[]) => {
     const r = await fetch('/api/claude', {
       method: 'POST',
@@ -162,20 +177,52 @@ export default function App() {
     return d.text as string;
   };
 
+  // ── streaming API call — updates a message chunk by chunk ──
+  const callAPIStream = async (
+    system: string|null,
+    messages: {role:string;content:string}[],
+    onChunk: (chunk: string) => void
+  ) => {
+    const r = await fetch('/api/claude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ system, messages, stream: true }),
+    });
+    if (!r.ok || !r.body) throw new Error('Stream failed');
+    const reader = r.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      onChunk(decoder.decode(value));
+    }
+  };
+
   const startScen = (s: typeof SCENARIOS[0]) => { setSel(s); setMsgs([{role:'assistant',content:s.opening}]); setDeb(null); setSv('prebrief'); };
 
   const send = async () => {
     if (!inp.trim() || chatL || !sel) return;
     const updated = [...msgs, {role:'user',content:inp}];
-    setMsgs(updated); setInp(''); setChatL(true);
+    setMsgs([...updated, {role:'assistant',content:''}]); setInp(''); setChatL(true);
     try {
       const sys = `You are a grieving family member in a funeral service training simulation.
 Persona: ${sel.persona}
 Goals the student should achieve: ${sel.goals.join('; ')}
 Stay in character at all times. React realistically — warmly to empathetic/clear/compliant responses; confused or distressed to poor ones. Keep responses natural (2–4 sentences max). If the student violates the FTC Funeral Rule or professional ethics, react as a real family member would. Never break character or give hints.`;
-      const reply = await callAPI(sys, updated);
-      setMsgs(p=>[...p,{role:'assistant',content:reply}]);
-    } catch { setMsgs(p=>[...p,{role:'assistant',content:"[Connection issue — please try again]"}]); }
+      await callAPIStream(sys, updated, (chunk) => {
+        setMsgs(p => {
+          const next = [...p];
+          next[next.length - 1] = {role:'assistant', content: next[next.length - 1].content + chunk};
+          return next;
+        });
+      });
+    } catch {
+      setMsgs(p => {
+        const next = [...p];
+        next[next.length - 1] = {role:'assistant', content:'[Connection issue — please try again]'};
+        return next;
+      });
+    }
     setChatL(false);
   };
 
@@ -204,14 +251,25 @@ Respond ONLY in this exact JSON with no extra text:
   const sendAsk = async () => {
     if (!askI.trim() || askL) return;
     const updated = [...askM, {role:'user',content:askI}];
-    setAskM(updated); setAskI(''); setAskL(true);
+    setAskM([...updated, {role:'assistant',content:''}]); setAskI(''); setAskL(true);
     try {
       const sys = `You are Professor Chen, an expert funeral service educator and licensed funeral director with 25 years of experience. You teach intro-to-funeral-services courses and NBE prep.
 Answer student questions clearly and concisely (3–6 sentences). Topics: FTC Funeral Rule, death certificates, embalming, grief counseling, OSHA safety, professional ethics, history of funeral service, NBE Arts and Sciences.
 Be warm and encouraging. Always note this is educational only — not legal, medical, or therapeutic advice.`;
-      const reply = await callAPI(sys, updated);
-      setAskM(p=>[...p,{role:'assistant',content:reply}]);
-    } catch { setAskM(p=>[...p,{role:'assistant',content:"Connection issue — please try again."}]); }
+      await callAPIStream(sys, updated, (chunk) => {
+        setAskM(p => {
+          const next = [...p];
+          next[next.length - 1] = {role:'assistant', content: next[next.length - 1].content + chunk};
+          return next;
+        });
+      });
+    } catch {
+      setAskM(p => {
+        const next = [...p];
+        next[next.length - 1] = {role:'assistant', content:'Connection issue — please try again.'};
+        return next;
+      });
+    }
     setAskL(false);
   };
 
@@ -222,8 +280,8 @@ Be warm and encouraging. Always note this is educational only — not legal, med
   const cats = ['All',...new Set(FLASHCARDS.map(c=>c.category))];
 
   const card: React.CSSProperties = {background:C.white,borderRadius:'16px',border:`1px solid ${C.border}`,padding:'16px'};
-  const H: React.CSSProperties = {fontFamily:"'Playfair Display',Georgia,serif",fontWeight:700,color:C.navy};
-  const B: React.CSSProperties = {fontFamily:"'DM Sans',system-ui,sans-serif"};
+  const H: React.CSSProperties = {fontFamily:"var(--font-playfair), Georgia, serif",fontWeight:700,color:C.navy};
+  const B: React.CSSProperties = {fontFamily:"var(--font-dm-sans), system-ui, sans-serif"};
   const badge = (text:string,bg:string,border:string): React.CSSProperties => ({fontSize:'10px',fontWeight:700,color:text,background:bg,border:`1px solid ${border}`,borderRadius:'20px',padding:'2px 8px',display:'inline-block'});
   const btn = (p=true): React.CSSProperties => ({background:p?C.navy:C.white,color:p?C.white:C.navy,border:p?'none':`2px solid ${C.navy}`,borderRadius:'12px',padding:'11px 16px',fontSize:'13px',fontWeight:700,cursor:'pointer',...B});
   const goldBtn: React.CSSProperties = {background:`linear-gradient(135deg,${C.gold},${C.goldLight})`,color:C.navy,border:'none',borderRadius:'12px',padding:'12px 18px',fontSize:'14px',fontWeight:700,cursor:'pointer',...B};
@@ -352,7 +410,7 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                       </div>
                     </div>
                   ))}
-                  {chatL&&<div style={{display:'flex',alignItems:'flex-end',gap:'6px'}}><div style={{width:'26px',height:'26px',borderRadius:'50%',background:C.creamDark,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px'}}>👤</div><div style={{background:C.white,padding:'10px 14px',borderRadius:'14px 14px 14px 3px',fontSize:'13px',color:C.textLight}}>thinking...</div></div>}
+                  {chatL&&msgs[msgs.length-1]?.role==='user'&&<div style={{display:'flex',alignItems:'flex-end',gap:'6px'}}><div style={{width:'26px',height:'26px',borderRadius:'50%',background:C.creamDark,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px'}}>👤</div><div style={{background:C.white,padding:'10px 14px',borderRadius:'14px 14px 14px 3px',fontSize:'13px',color:C.textLight}}>thinking...</div></div>}
                   <div ref={chatEnd}/>
                 </div>
                 <div style={{padding:'10px 14px',background:C.white,borderTop:`1px solid ${C.border}`,display:'flex',gap:'8px'}}>
@@ -505,7 +563,7 @@ Be warm and encouraging. Always note this is educational only — not legal, med
                   <div style={{maxWidth:'82%',padding:'10px 13px',borderRadius:m.role==='user'?'14px 14px 3px 14px':'14px 14px 14px 3px',background:m.role==='user'?C.navy:C.white,color:m.role==='user'?C.white:C.text,fontSize:'13px',lineHeight:1.55,boxShadow:'0 1px 4px rgba(0,0,0,0.06)'}}>{m.content}</div>
                 </div>
               ))}
-              {askL&&<div style={{display:'flex',gap:'8px',alignItems:'flex-end'}}><span style={{fontSize:'16px'}}>👨‍🏫</span><div style={{background:C.white,padding:'10px 14px',borderRadius:'14px 14px 14px 3px',fontSize:'13px',color:C.textLight}}>thinking...</div></div>}
+              {askL&&askM[askM.length-1]?.role==='user'&&<div style={{display:'flex',gap:'8px',alignItems:'flex-end'}}><span style={{fontSize:'16px'}}>👨‍🏫</span><div style={{background:C.white,padding:'10px 14px',borderRadius:'14px 14px 14px 3px',fontSize:'13px',color:C.textLight}}>thinking...</div></div>}
               <div ref={askEnd}/>
             </div>
             <div style={{padding:'10px 14px',background:C.white,borderTop:`1px solid ${C.border}`,display:'flex',gap:'8px'}}>
