@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Funeral Service Trainer — User Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap');
+
+  :root {
+    --navy: #1A2840;
+    --navy-light: #243660;
+    --gold: #C9A84C;
+    --gold-light: #E8C870;
+    --cream: #F5F0E8;
+    --cream-dark: #EDE5D8;
+    --white: #FFFFFF;
+    --text: #1A2840;
+    --text-med: #4A5568;
+    --text-light: #8A7A6A;
+    --border: #E2D9CC;
+    --green: #1A7A4A;
+    --green-bg: #F0FAF5;
+    --orange: #B85C00;
+    --orange-bg: #FFF5EB;
+    --blue: #1A4A8A;
+    --blue-bg: #EFF4FF;
+    --red: #C0282E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: var(--navy);
+  }
+
+  /* ── Cover Page ── */
+  .cover {
+    background: linear-gradient(150deg, var(--navy) 0%, var(--navy-light) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    text-align: center;
+    page-break-after: always;
+  }
+
+  .cover-logo {
+    width: 80px; height: 80px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px;
+    margin-bottom: 32px;
+  }
+
+  .cover h1 {
+    font-size: 42px;
+    color: var(--white);
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+
+  .cover .subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  .cover-divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    margin: 0 auto 48px;
+  }
+
+  .cover-desc {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    max-width: 480px;
+    line-height: 1.8;
+    margin-bottom: 60px;
+  }
+
+  .cover-badge {
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 100px;
+    padding: 10px 24px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Page wrapper ── */
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 48px;
+  }
+
+  /* ── Section headers ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-med);
+    margin-bottom: 32px;
+    line-height: 1.7;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card-navy {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+    color: var(--white);
+  }
+
+  /* ── Feature rows ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .feature-tile {
+    background: var(--white);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 18px;
+  }
+
+  .feature-tile .icon {
+    font-size: 22px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .feature-tile h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  .feature-tile p {
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  /* ── Steps ── */
+  .step {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content h4 {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .step-content p {
+    font-size: 13px;
+    color: var(--text-med);
+    line-height: 1.6;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .badge-green { background: var(--green-bg); color: var(--green); border: 1px solid #B8EDD6; }
+  .badge-blue  { background: var(--blue-bg);  color: var(--blue);  border: 1px solid #BFCFEE; }
+  .badge-gold  { background: rgba(201,168,76,0.12); color: #8A5A00; border: 1px solid rgba(201,168,76,0.3); }
+  .badge-red   { background: #FFF0F0; color: var(--red); border: 1px solid #FFD0D0; }
+  .badge-purple{ background: #F5F0FF; color: #5B2D9A; border: 1px solid #DDD0FF; }
+
+  /* ── Tip box ── */
+  .tip {
+    border-left: 3px solid var(--gold);
+    background: #FFFBF0;
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: #6A4400;
+    line-height: 1.6;
+  }
+
+  .tip strong { color: var(--orange); }
+
+  .note {
+    background: var(--blue-bg);
+    border: 1px solid #BFCFEE;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    color: var(--blue);
+    line-height: 1.6;
+  }
+
+  /* ── Scenario table ── */
+  .scen-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .scen-row:last-child { border-bottom: none; }
+
+  .scen-num {
+    width: 26px; height: 26px;
+    border-radius: 8px;
+    background: rgba(201,168,76,0.1);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .scen-info h4 { font-size: 13px; margin-bottom: 2px; }
+  .scen-info p  { font-size: 11px; color: var(--text-light); line-height: 1.4; }
+
+  /* ── Score circles ── */
+  .score-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+
+  .score-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── Page break ── */
+  .break { page-break-before: always; padding-top: 56px; }
+
+  /* ── TOC ── */
+  .toc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--border);
+    font-size: 14px;
+    color: var(--text-med);
+  }
+  .toc-row:last-child { border-bottom: none; }
+  .toc-row strong { color: var(--text); }
+  .toc-num { color: var(--gold); font-weight: 700; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .card-navy, .card-gold { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .step-num, .scen-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .badge-green, .badge-blue, .badge-gold, .badge-red, .badge-purple {
+      -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     COVER
+══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-logo">⚘</div>
+  <h1>Funeral Service Trainer</h1>
+  <p class="subtitle">User Guide &amp; Feature Reference</p>
+  <div class="cover-divider"></div>
+  <p class="cover-desc">
+    A complete AI-powered training platform for funeral service students.
+    Practice real family conversations, study terminology, and prepare for
+    the National Board Examination — all in one place.
+  </p>
+  <div class="cover-badge">funeral-service-trainer.vercel.app</div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TABLE OF CONTENTS
+══════════════════════════════════════════════ -->
+<div class="page">
+  <p class="section-label">Contents</p>
+  <h2 class="section-title">What's in this guide</h2>
+  <p class="section-desc">Everything you need to get started and get the most out of the platform.</p>
+
+  <div class="card">
+    <div class="toc-row"><span><strong>1. Getting Started</strong> — accessing the app, creating your profile</span><span class="toc-num">2</span></div>
+    <div class="toc-row"><span><strong>2. Home Screen</strong> — your dashboard at a glance</span><span class="toc-num">3</span></div>
+    <div class="toc-row"><span><strong>3. Practice Scenarios</strong> — role-play simulations with AI families</span><span class="toc-num">4</span></div>
+    <div class="toc-row"><span><strong>4. Coach Mode</strong> — real-time guidance while you practice</span><span class="toc-num">6</span></div>
+    <div class="toc-row"><span><strong>5. Session Debrief</strong> — your grade and feedback after each scenario</span><span class="toc-num">7</span></div>
+    <div class="toc-row"><span><strong>6. Study Mode</strong> — flashcards and NBE quiz</span><span class="toc-num">8</span></div>
+    <div class="toc-row"><span><strong>7. Ask the Instructor</strong> — AI professor for any question</span><span class="toc-num">10</span></div>
+    <div class="toc-row"><span><strong>8. Progress Tab</strong> — tracking your improvement over time</span><span class="toc-num">11</span></div>
+    <div class="toc-row"><span><strong>9. All 12 Scenarios</strong> — complete reference list</span><span class="toc-num">12</span></div>
+    <div class="toc-row"><span><strong>10. Tips for Getting the Most Out of Practice</strong></span><span class="toc-num">13</span></div>
+  </div>
+
+  <div class="note">
+    <strong>📱 Mobile-first:</strong> This app is designed for phone use. It works on desktop too, but it looks and feels best on your phone's browser — no app download needed.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — GETTING STARTED
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 1</p>
+  <h2 class="section-title">Getting Started</h2>
+  <p class="section-desc">Open the app in any browser — no account, no download, no login required.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Open the app</h4>
+      <p>Go to <strong>funeral-service-trainer.vercel.app</strong> in your phone or computer browser. Bookmark it for easy access — tap the share icon on iPhone and choose "Add to Home Screen" for a dedicated icon.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Create your student profile</h4>
+      <p>The first time you open the app, tap <strong>Get Started →</strong> and enter your name. Your profile stores all your progress locally on your device — nothing is sent to any server except for the AI conversations themselves.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Multiple students, one device</h4>
+      <p>The app supports multiple profiles on the same device. If you share a tablet with another student, each person can have their own separate progress. Tap your name in the top-right corner to switch profiles.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h4>Your progress is saved automatically</h4>
+      <p>Everything — completed scenarios, quiz scores, scenario attempt history — saves automatically to your device. You don't need to do anything to save your work. Just use the app and your progress will be there next time.</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>Important:</strong> Because your progress is saved on your device (not a cloud account), clearing your browser's data or switching devices will reset your progress. Use the same browser on the same device each time for continuous tracking.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2 — HOME SCREEN
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 2</p>
+  <h2 class="section-title">Home Screen</h2>
+  <p class="section-desc">Your starting point. See where you stand and jump into any feature.</p>
+
+  <div class="card-gold" style="margin-bottom:20px;">
+    <h3 style="color:var(--navy);font-size:20px;margin-bottom:6px;">Ready to practice?</h3>
+    <p style="font-size:13px;color:var(--navy);opacity:0.75;margin-bottom:14px;">The gold banner at the top shows how many scenarios you've completed and how many quizzes you've taken. Tap <strong>Start a Scenario →</strong> to jump straight into practice.</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-tile">
+      <div class="icon">◎</div>
+      <h4>Role-Play</h4>
+      <p>12 AI-powered family conversation scenarios at varying difficulty levels.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">◈</div>
+      <h4>Flashcards</h4>
+      <p>44 key terms across 6 topic categories. Tap to flip and reveal definitions.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">✎</div>
+      <h4>NBE Quiz</h4>
+      <p>75 multiple-choice questions covering all major NBE exam topic areas.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">⊕</div>
+      <h4>Ask Prof.</h4>
+      <p>Ask your AI instructor any funeral service question and get a clear answer instantly.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="font-size:13px;margin-bottom:12px;">NBE Topic Coverage</h4>
+    <p style="font-size:12px;color:var(--text-med);line-height:1.7;">The progress bars at the bottom of the Home screen show how thoroughly each major NBE exam topic area is covered across the app's scenarios, flashcards, and quiz questions. Use this as a study map — if a topic is at a lower percentage, focus your flashcard and quiz time there.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3 — PRACTICE SCENARIOS
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 3</p>
+  <h2 class="section-title">Practice Scenarios</h2>
+  <p class="section-desc">The heart of the app. Have real conversations with AI-powered family members and practice your professional skills in a safe environment.</p>
+
+  <div class="card-navy">
+    <p style="font-size:11px;color:rgba(201,168,76,0.7);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">How it works</p>
+    <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.7;">You play the role of a funeral director. The AI plays a grieving family member with a specific personality, emotional state, and situation. Your job is to respond as you would in real life — with empathy, clarity, and professional compliance. The AI reacts realistically: it responds well to patience and clear guidance, and it becomes withdrawn or frustrated when rushed or met with jargon.</p>
+  </div>
+
+  <div class="divider"></div>
+  <h3 style="font-size:16px;margin-bottom:16px;">How to run a scenario — step by step</h3>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Choose a scenario from the library</h4>
+      <p>Tap the <strong>Practice</strong> tab (◎) at the bottom. Browse the 12 scenarios. Each card shows the category, difficulty level, a description, and your past scores if you've attempted it before. Tap <strong>Begin →</strong> to select one.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Read the prebrief carefully</h4>
+      <p>Before the conversation starts, you'll see a <strong>Prebrief screen</strong> with the scenario's learning goals, the difficulty level, and any past attempt scores. Read the goals — these are exactly what you'll be evaluated on. Tap <strong>Begin Scenario →</strong> when ready.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Respond as the funeral director</h4>
+      <p>The family member opens the conversation. Type your response in the text box at the bottom and tap the <strong>↑</strong> button (or press Enter). Take your time — there's no time pressure. Write responses as you'd actually speak, not as you'd write an essay.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h4>End the scenario when it's complete</h4>
+      <p>When all the learning goals have genuinely been addressed, a green <strong>"Scenario Resolved"</strong> banner will appear automatically. Tap <strong>Debrief →</strong> to get your feedback. You can also tap <strong>End →</strong> in the top bar at any time to stop and get evaluated on what you've done so far.</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>Tip:</strong> The scenario won't resolve until you've actually addressed all the learning goals — not just mentioned them. If the green banner doesn't appear, re-read the goals and think about what's still missing from the conversation.
+  </div>
+
+  <div class="divider"></div>
+  <h3 style="font-size:16px;margin-bottom:8px;">Difficulty levels</h3>
+  <p style="font-size:13px;color:var(--text-med);margin-bottom:14px;">Start with Beginner scenarios to build confidence, then work up.</p>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+    <div class="card" style="flex:1;min-width:180px;padding:16px;">
+      <span class="badge badge-green">Beginner</span>
+      <p style="font-size:12px;color:var(--text-med);margin-top:8px;line-height:1.5;">Emotionally straightforward families. Good for building fundamentals and getting comfortable with the flow.</p>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;padding:16px;">
+      <span class="badge badge-gold">Intermediate</span>
+      <p style="font-size:12px;color:var(--text-med);margin-top:8px;line-height:1.5;">More complexity — skeptical families, compliance questions, cultural sensitivity. Requires more precision.</p>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;padding:16px;">
+      <span class="badge badge-red">Advanced</span>
+      <p style="font-size:12px;color:var(--text-med);margin-top:8px;line-height:1.5;">High-stakes, emotionally intense scenarios. Family conflict and child loss. Every word matters.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 4 — COACH MODE
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 4</p>
+  <h2 class="section-title">Coach Mode</h2>
+  <p class="section-desc">Get real-time feedback from an AI instructor while you're mid-scenario — not just at the end.</p>
+
+  <div class="card-navy">
+    <p style="font-size:11px;color:rgba(201,168,76,0.7);font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;">🎓 What Coach Mode does</p>
+    <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.7;">After each response you send, the AI instructor analyzes your message in the context of the scenario's learning goals and gives you:</p>
+    <ul style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:10px;padding-left:18px;line-height:1.9;">
+      <li>What you did well or missed in your last response</li>
+      <li>The single most important goal still to address</li>
+      <li>A specific example of what a strong next response could sound like</li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Turn it on from the scenario header</h4>
+      <p>During any roleplay, look for the <strong>🎓 Coach</strong> button in the top-right of the scenario screen. Tap it to turn Coach Mode on. It will highlight gold when active.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Send a response and watch the coaching panel appear</h4>
+      <p>After you send your message, a yellow panel appears below the chat. Wait a moment — the instructor is analyzing your response. This takes 3–5 seconds.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Read the tip, then keep going</h4>
+      <p>The coaching panel shows three things: your tip, your goal focus for next, and a suggested phrase you could try. Use it as a prompt to sharpen your next response. The panel clears when you send your next message so it doesn't distract you.</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>When to use Coach Mode:</strong> Turn it on when you're learning a new scenario type or when you feel uncertain. Turn it off when you want to challenge yourself — it's more realistic to practice without a safety net once you've built confidence.
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> Coach Mode adds a small delay after each message while the AI analyzes your response. This is normal. The family member's response and the coaching note are separate — the family never sees or is affected by the coaching.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 5 — DEBRIEF
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 5</p>
+  <h2 class="section-title">Session Debrief</h2>
+  <p class="section-desc">After every scenario, the AI evaluates your full conversation and gives you detailed, actionable feedback.</p>
+
+  <div class="feature-grid">
+    <div class="feature-tile">
+      <div class="icon" style="font-size:28px;font-family:'Playfair Display',serif;color:var(--navy);">A–F</div>
+      <h4>Letter Grade</h4>
+      <p>Overall assessment of your performance. A = 90%+, B = 80%+, C = 70%+, D = 60%+, F = below.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">⬤⬤⬤</div>
+      <h4>Skill Scores</h4>
+      <p>Scored 1–5 in three areas: <strong>Empathy</strong>, <strong>Clarity</strong>, and <strong>Compliance</strong> (FTC/ethics).</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">✅❌</div>
+      <h4>Goal Checklist</h4>
+      <p>Each learning goal from the prebrief is checked — did you actually achieve it or not?</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">💬</div>
+      <h4>Better Phrasing</h4>
+      <p>One specific example of stronger language you could have used, written out for you to study.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="font-size:13px;margin-bottom:10px;">What to do with your debrief</h4>
+    <div class="step" style="margin-bottom:12px;">
+      <div class="step-num" style="width:24px;height:24px;font-size:12px;">1</div>
+      <div class="step-content"><p style="font-size:13px;">Read the verdict and summary to understand the overall arc of your conversation.</p></div>
+    </div>
+    <div class="step" style="margin-bottom:12px;">
+      <div class="step-num" style="width:24px;height:24px;font-size:12px;">2</div>
+      <div class="step-content"><p style="font-size:13px;">Check which goals were <strong>not</strong> met (❌) — those are your specific gaps to focus on in the next attempt.</p></div>
+    </div>
+    <div class="step" style="margin-bottom:12px;">
+      <div class="step-num" style="width:24px;height:24px;font-size:12px;">3</div>
+      <div class="step-content"><p style="font-size:13px;">Read the "Better Phrasing" suggestion carefully — save phrasing that resonates to use in real situations.</p></div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="width:24px;height:24px;font-size:12px;">4</div>
+      <div class="step-content"><p style="font-size:13px;">Tap <strong>Try Again</strong> immediately while the feedback is fresh. Repeat until you hit an A.</p></div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>Score history:</strong> Every attempt is saved. When you return to the Prebrief screen for a scenario you've done before, you'll see your last 3 attempts with their scores. Use this to track whether you're genuinely improving.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 6 — STUDY MODE
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 6</p>
+  <h2 class="section-title">Study Mode</h2>
+  <p class="section-desc">Two tools for learning terminology and preparing for the National Board Examination.</p>
+
+  <div class="divider" style="margin:0 0 28px;"></div>
+  <h3 style="font-size:18px;margin-bottom:6px;">Flashcards</h3>
+  <p style="font-size:13px;color:var(--text-med);margin-bottom:20px;">44 key terms across 6 categories. Tap a card to flip it and reveal the definition.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Filter by category</h4>
+      <p>Use the category filter bar at the top to focus on one topic area at a time. Categories: All, FTC &amp; Legal, Embalming, Sciences, Grief &amp; Counseling, History &amp; Profession, Death Certificates.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Tap the card to flip it</h4>
+      <p>The front shows the term. Tap anywhere on the card to flip it with a 3D animation and reveal the full definition. Tap again to flip back.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Navigate with Prev / Next</h4>
+      <p>Use the <strong>← Prev</strong> and <strong>Next →</strong> buttons to move through the deck. The counter in the top-right shows your position (e.g., "5 / 44").</p>
+    </div>
+  </div>
+
+  <div class="tip">
+    <strong>NBE tag:</strong> Cards marked "NBE" are specifically relevant to the National Board Examination. If you're actively studying for the NBE, prioritize these.
+  </div>
+
+  <div class="divider"></div>
+  <h3 style="font-size:18px;margin-bottom:6px;">NBE Practice Quiz</h3>
+  <p style="font-size:13px;color:var(--text-med);margin-bottom:20px;">75 multiple-choice questions in NBE format. Filter by topic, answer all questions, then submit for instant grading.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Choose a filter (optional)</h4>
+      <p>Run all 75 questions at once, or filter by: <strong>Arts</strong>, <strong>Sciences</strong>, <strong>FTC &amp; Legal</strong>, <strong>Embalming</strong>, <strong>Grief &amp; Counseling</strong>, <strong>Death Certificates</strong>, or <strong>History &amp; Profession</strong>.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Answer every question before submitting</h4>
+      <p>Select one answer per question. The submit button stays locked until you've answered all questions — you can't partially submit.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Review your results</h4>
+      <p>After submitting, every question is shown with: your answer, the correct answer highlighted in green, and a brief explanation. Questions you got wrong are bordered in red for easy review.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Quiz history</strong> is saved on the Progress tab. You can see every quiz you've taken, what filter you used, and your score — so you can spot topic areas that need more work.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 7 — ASK THE INSTRUCTOR
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 7</p>
+  <h2 class="section-title">Ask the Instructor</h2>
+  <p class="section-desc">Your personal AI professor, available 24/7. Ask any funeral service question and get a clear, concise expert answer.</p>
+
+  <div class="card-navy">
+    <p style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.7;">Meet <strong style="color:var(--gold-light);">Professor Chen</strong> — an AI expert with 25 years of simulated experience as both a funeral director and NBE prep instructor. Ask him anything in plain English. He'll answer in 3–6 sentences with the clarity of a classroom lecture.</p>
+  </div>
+
+  <div class="divider"></div>
+  <h3 style="font-size:16px;margin-bottom:16px;">Great questions to ask</h3>
+
+  <div class="card" style="padding:18px;margin-bottom:12px;">
+    <p style="font-size:12px;color:var(--text-light);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">FTC &amp; Compliance</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"When exactly do I have to give a family the General Price List?"</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"What are cash advance items and when do I have to disclose the markup?"</p>
+    <p style="font-size:13px;color:var(--text-med);">"What does the FTC Funeral Rule say about embalming?"</p>
+  </div>
+
+  <div class="card" style="padding:18px;margin-bottom:12px;">
+    <p style="font-size:12px;color:var(--text-light);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">Science &amp; Embalming</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"What's the difference between rigor mortis and livor mortis?"</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"What chemicals are used in arterial embalming and what do they do?"</p>
+    <p style="font-size:13px;color:var(--text-med);">"How does cavity embalming differ from arterial embalming?"</p>
+  </div>
+
+  <div class="card" style="padding:18px;margin-bottom:12px;">
+    <p style="font-size:12px;color:var(--text-light);font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">NBE Prep</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"What's on the NBE Arts exam vs. the Sciences exam?"</p>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:6px;">"What are the stages of grief according to Kübler-Ross?"</p>
+    <p style="font-size:13px;color:var(--text-med);">"Walk me through what happens at an arrangement conference."</p>
+  </div>
+
+  <div class="tip">
+    <strong>Important disclaimer:</strong> The instructor provides educational information only — not legal, medical, or therapeutic advice. For real licensing questions, always consult your state board or a licensed attorney.
+  </div>
+
+  <div class="note">
+    Ask the instructor your questions <em>before</em> a scenario to make sure you know the content, then go into the roleplay with confidence. It's the best way to combine theory and practice.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 8 — PROGRESS
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 8</p>
+  <h2 class="section-title">Progress Tab</h2>
+  <p class="section-desc">Your full study history in one place — scenarios completed, quiz scores, and skill score trends.</p>
+
+  <div class="feature-grid">
+    <div class="feature-tile">
+      <div class="icon">◎</div>
+      <h4>Scenarios Completed</h4>
+      <p>How many of the 12 scenarios you've finished at least once.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">✎</div>
+      <h4>Quizzes Taken</h4>
+      <p>Total number of quiz sessions completed, across all filters.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">◈</div>
+      <h4>Best Quiz Score</h4>
+      <p>Your highest percentage across all quiz sessions.</p>
+    </div>
+    <div class="feature-tile">
+      <div class="icon">⬤</div>
+      <h4>Attempt History</h4>
+      <p>Per-scenario: how many attempts, and your best Empathy / Clarity / Compliance scores.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="font-size:13px;margin-bottom:12px;">How to read your scenario scores</h4>
+    <p style="font-size:13px;color:var(--text-med);margin-bottom:12px;">Each scenario in the list shows your best attempt's skill scores:</p>
+    <div class="score-row" style="margin-bottom:12px;">
+      <span class="score-pill" style="background:var(--green-bg);color:var(--green);">Empathy: 4/5</span>
+      <span class="score-pill" style="background:var(--green-bg);color:var(--green);">Clarity: 5/5</span>
+      <span class="score-pill" style="background:var(--orange-bg);color:var(--orange);">Compliance: 3/5</span>
+    </div>
+    <p style="font-size:12px;color:var(--text-med);line-height:1.6;"><span style="color:var(--green);font-weight:700;">Green (4–5):</span> Strong. Keep it up.<br><span style="color:var(--orange);font-weight:700;">Orange (3):</span> Adequate but needs work.<br><span style="color:var(--red);font-weight:700;">Red (1–2):</span> Significant gap — revisit this scenario and focus on that skill.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="font-size:13px;margin-bottom:10px;">Quiz History</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.6;">The bottom of the Progress tab shows your 10 most recent quiz sessions in reverse order. Each row shows the filter used, your raw score, and your percentage. Look for patterns — if you consistently score lower on Sciences than FTC &amp; Legal, you know where to focus your flashcard time.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 9 — ALL 12 SCENARIOS
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 9</p>
+  <h2 class="section-title">All 12 Scenarios</h2>
+  <p class="section-desc">A complete reference. Work through them roughly in order — difficulty increases as you go.</p>
+
+  <div class="card">
+    <div class="scen-row">
+      <div class="scen-num">1</div>
+      <div class="scen-info">
+        <h4>Arrangement Conference <span style="font-weight:400;color:var(--text-light);font-size:11px;">— First Meeting</span></h4>
+        <p><span class="badge badge-green">Beginner</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">Arrangement</span> Guide an overwhelmed family through their first arrangement meeting. Practice pacing, compassionate listening, and process explanation.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">2</div>
+      <div class="scen-info">
+        <h4>FTC Funeral Rule <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Price Transparency</span></h4>
+        <p><span class="badge badge-gold">Intermediate</span><span class="badge badge-blue">Compliance</span> Navigate presenting the GPL to a skeptical, financially stressed family member. No steering, plain language required.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">3</div>
+      <div class="scen-info">
+        <h4>Direct Cremation <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Explaining the Process</span></h4>
+        <p><span class="badge badge-green">Beginner</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">Arrangement</span> Explain direct cremation accurately without steering toward more expensive options. Mention the alternative container per FTC rules.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">4</div>
+      <div class="scen-info">
+        <h4>Cultural Request <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Navigating Uncertainty</span></h4>
+        <p><span class="badge badge-gold">Intermediate</span><span class="badge badge-purple">Cultural</span> Handle a family request for culturally specific arrangements when the family doesn't know every detail. Ask, don't assume.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">5</div>
+      <div class="scen-info">
+        <h4>Family Conflict <span style="font-weight:400;color:var(--text-light);font-size:11px;">— De-Escalation</span></h4>
+        <p><span class="badge badge-red">Advanced</span><span class="badge" style="background:#FFF0F0;color:var(--red);border:1px solid #FFD0D0;">Conflict</span> Manage active disagreement between family members in the arrangement room. De-escalate, don't take sides, redirect to the deceased's wishes.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">6</div>
+      <div class="scen-info">
+        <h4>Death Certificate Intake <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Staying in Your Lane</span></h4>
+        <p><span class="badge badge-gold">Intermediate</span><span class="badge badge-blue">Legal</span> Collect demographic information while explaining which fields belong to the medical certifier. Never speculate on cause of death.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">7</div>
+      <div class="scen-info">
+        <h4>First Call <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Removal Authorization</span></h4>
+        <p><span class="badge badge-green">Beginner</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">First Call</span> Handle the initial phone call from a family. Collect information, express condolences, and explain next steps clearly.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">8</div>
+      <div class="scen-info">
+        <h4>Aftercare <span style="font-weight:400;color:var(--text-light);font-size:11px;">— What Happens Next</span></h4>
+        <p><span class="badge badge-green">Beginner</span><span class="badge" style="background:#FFF8E8;color:#8A5A00;border:1px solid #F0D890;">Aftercare</span> Walk a family through post-service next steps. Know your scope — refer out for legal, financial, and estate matters.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">9</div>
+      <div class="scen-info">
+        <h4>Pre-Need Consultation <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Planning in Advance</span></h4>
+        <p><span class="badge badge-green">Beginner</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">Arrangement</span> Walk a healthy individual through pre-arranging their funeral. Honor their autonomy, explain benefits, document preferences without pressure.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">10</div>
+      <div class="scen-info">
+        <h4>Embalming Questions <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Informed Consent</span></h4>
+        <p><span class="badge badge-gold">Intermediate</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">Arrangement</span> Answer a skeptical family member's pointed questions about embalming. Accurate info, no pressure, proper authorization or respectful refusal.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">11</div>
+      <div class="scen-info">
+        <h4>Veterans Burial Benefits <span style="font-weight:400;color:var(--text-light);font-size:11px;">— Navigating VA Benefits</span></h4>
+        <p><span class="badge badge-gold">Intermediate</span><span class="badge badge-blue">Legal</span> Explain VA burial benefits accurately — what's covered, who does what, and what you cannot promise. Know your limits.</p>
+      </div>
+    </div>
+    <div class="scen-row">
+      <div class="scen-num">12</div>
+      <div class="scen-info">
+        <h4>Child Loss — First Call <span style="font-weight:400;color:var(--text-light);font-size:11px;">— The Hardest Call</span></h4>
+        <p><span class="badge badge-red">Advanced</span><span class="badge" style="background:var(--green-bg);color:var(--green);border:1px solid #B8EDD6;">First Call</span> Handle a first call from a parent whose infant has passed. Lead with unconditional compassion. Every word matters. Never rush.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 10 — TIPS
+══════════════════════════════════════════════ -->
+<div class="page break">
+  <p class="section-label">Section 10</p>
+  <h2 class="section-title">Tips for Getting the Most Out of Practice</h2>
+  <p class="section-desc">How to use this tool the way it was designed — for real skill development, not just completion.</p>
+
+  <div class="card" style="border-left:4px solid var(--gold);">
+    <h4 style="font-size:15px;margin-bottom:8px;">Don't just finish — repeat until you earn an A</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.7;">Completing a scenario once isn't the goal. Read your debrief, note the unmet goals, and try again immediately. The fastest learning happens in the second and third attempt, when you know what's missing.</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--blue);margin-top:0;">
+    <h4 style="font-size:15px;margin-bottom:8px;">Write like you talk, not like you write</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.7;">The AI family members respond better to natural, conversational language than formal or essay-style responses. Type your response as if you were actually speaking to someone in the room. Short sentences, warm tone, real words.</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--green);margin-top:0;">
+    <h4 style="font-size:15px;margin-bottom:8px;">Use "Ask the Instructor" before hard scenarios</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.7;">Before attempting the FTC Funeral Rule, Veterans Benefits, or Embalming scenarios, ask Professor Chen to explain the topic first. Then go into the roleplay with the knowledge already in your head — that's the sequence that sticks.</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid var(--orange);margin-top:0;">
+    <h4 style="font-size:15px;margin-bottom:8px;">Practice Scenario 12 (Child Loss) last</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.7;">This scenario is emotionally demanding. It's designed for students who have already built confidence with the other scenarios. Approaching it too early — before you've developed the instinct to lead with compassion over process — will result in a poor experience.</p>
+  </div>
+
+  <div class="card" style="border-left:4px solid #5B2D9A;margin-top:0;">
+    <h4 style="font-size:15px;margin-bottom:8px;">Check your Compliance score first</h4>
+    <p style="font-size:13px;color:var(--text-med);line-height:1.7;">In your debriefs, look at Compliance before Empathy. Compliance errors (FTC violations, speculation on cause of death, practicing law) are the ones that can cause real professional harm. Make sure you're never below a 4 there before moving to harder scenarios.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card-navy">
+    <p style="font-size:14px;color:rgba(255,255,255,0.85);line-height:1.8;text-align:center;">
+      <em style="color:var(--gold-light);">"The family standing across from you on the hardest day of their life deserves a professional who has already made every mistake — safely, in a training room."</em>
+    </p>
+    <p style="font-size:12px;color:rgba(255,255,255,0.45);text-align:center;margin-top:10px;">That's what this tool is for. Good luck.</p>
+  </div>
+
+  <div style="text-align:center;margin-top:40px;">
+    <p style="font-size:12px;color:var(--text-light);">funeral-service-trainer.vercel.app</p>
+    <div style="width:40px;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:2px;margin:8px auto 0;"></div>
+  </div>
+
+</div>
+
+</body>
+</html>
